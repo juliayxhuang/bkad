@@ -230,6 +230,18 @@
             padding-bottom: 96px;
         }
 
+        .module--stacked{
+            padding-bottom: 0;
+        }
+
+        .module--stacked + .module--stacked{
+            padding-top: 0;
+        }
+
+        .module--stacked.module--gap-after{
+            padding-bottom: 96px;
+        }
+
         .frame{
             border: 10px solid rgba(255,255,255,.95);
             background: #000;
@@ -370,7 +382,7 @@
 
         .bars__bottom{
             margin-top: 18px;
-            border: 10px solid var(--blue);
+            border: 0;
             background:#000;
             min-height: clamp(320px, 35vw, 520px);
             display:grid;
@@ -403,14 +415,24 @@
 
         .maps{
             display:grid;
-            gap: 18px;
-            padding: 18px;
+            gap: 0;
+            padding: 0;
+            background: transparent;
+            justify-items: start;
+        }
+
+        .maps-title{
+            margin: 0 0 18px 0;
+            font-family: "RapidRegExtended", inherit;
+            font-size: clamp(26px, 2.6vw, 44px);
+            letter-spacing: .01em;
         }
 
         .maps__top{
             display:grid;
             grid-template-columns: 1fr 1fr;
-            gap: 18px;
+            gap: 8px;
+            width: 100%;
         }
 
         .maps img{
@@ -421,13 +443,18 @@
         }
 
         .maps__top img{
-            aspect-ratio: 16/10;
-            object-fit: cover;
+            width: 100%;
+            height: clamp(380px, 50vw, 680px);
+            object-fit: contain;
+            background: #000;
         }
 
-        .maps__poster img{
-            aspect-ratio: 1/1;
-            object-fit: cover;
+        .maps__top img:first-child{
+            object-position: left center;
+        }
+
+        .maps__top img:last-child{
+            object-position: right center;
         }
 
         @media (max-width: 720px){
@@ -587,7 +614,7 @@
             </div>
         </section>
 
-        <section class="module container" aria-label="Brand grid">
+        <section class="module module--stacked container" aria-label="Brand grid">
             <div class="frame">
                 <div class="tile-grid" aria-hidden="true">
                     <div class="tile tile--black">
@@ -618,7 +645,7 @@
             </div>
         </section>
 
-        <section class="module container" aria-label="Color bars">
+        <section class="module module--stacked container" aria-label="Color bars">
             <div class="frame bars">
                 <div class="bars__row" aria-hidden="true">
                     <div class="bar bar--green"></div>
@@ -632,21 +659,19 @@
             </div>
         </section>
 
-        <section class="module container" aria-label="Maps and posters">
-            <div class="frame maps">
+        <!-- Structured placeholders for upcoming content -->
+        <section class="section section--spacer container" id="about" aria-label="About Us"></section>
+        <section class="section section--spacer container" id="tickets" aria-label="Tickets"></section>
+
+        <section class="module container" aria-label="Maps">
+            <h3 class="maps-title">Find us on the bridge.</h3>
+            <div class="maps">
                 <div class="maps__top">
                     <img src="images/map1.png" alt="" aria-hidden="true" />
                     <img src="images/map2.png" alt="" aria-hidden="true" />
                 </div>
-                <div class="maps__poster">
-                    <img src="images/bkad street posters.png" alt="" aria-hidden="true" />
-                </div>
             </div>
         </section>
-
-        <!-- Structured placeholders for upcoming content -->
-        <section class="section section--spacer container" id="about" aria-label="About Us"></section>
-        <section class="section section--spacer container" id="tickets" aria-label="Tickets"></section>
     </main>
 
     <script>
