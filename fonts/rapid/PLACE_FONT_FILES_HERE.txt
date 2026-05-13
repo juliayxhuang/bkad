@@ -1,0 +1,5 @@
+Rapid typeface files live in this folder.
+
+`lineup/lineup.html` currently loads:
+- `RapidRegular.otf` / `RapidRegular.ttf` (font-family: `Rapid`)
+- `RapidRegExtended.otf` / `RapidRegExtended.ttf` (font-family: `RapidRegExtended`)

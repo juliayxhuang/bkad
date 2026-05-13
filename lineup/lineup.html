@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Lineup — Brooklyn After Dark</title>
+    <link rel="icon" href="../K.svg" />
+    <style>
+      :root {
+        --pad-left: 64px;
+        --pad-edge: 32px;
+        --white: rgba(255, 255, 255, 0.95);
+        --neongreen: #5CFF00;
+        --neonblue: #00B2FF;
+        --neonorange: #FF6000;
+        --neonbrown: #9A7200;
+        --accent: var(--neongreen);
+        --fade: 300ms;
+      }
+
+      /* Rapid typeface (paths relative to `lineup/lineup.html`). */
+      @font-face {
+        font-family: "Rapid";
+        src: url("../fonts/rapid/RapidRegular.otf") format("opentype"),
+          url("../fonts/rapid/RapidRegular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "RapidRegExtended";
+        src: url("../fonts/rapid/RapidRegExtended.otf") format("opentype"),
+          url("../fonts/rapid/RapidRegExtended.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      html {
+        background: #000;
+        overflow: hidden;
+      }
+
+      body {
+        margin: 0;
+        background: #000;
+        color: var(--white);
+        overflow: hidden;
+        overscroll-behavior: none;
+        font-family: "RapidRegExtended", "Rapid";
+      }
+
+      .stage {
+        position: fixed;
+        inset: 0;
+        padding-left: var(--pad-left);
+      }
+
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        opacity: 0;
+        transition: opacity var(--fade) ease;
+        background-color: #000;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        filter: saturate(1.1) contrast(1.05);
+      }
+
+      .bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0);
+        transition: background var(--fade) ease;
+      }
+
+      .bg.is-active {
+        opacity: 1;
+      }
+
+      .bg.is-active::after {
+        /* Darken active images for text legibility. */
+        background: rgba(0, 0, 0, 0.48);
+      }
+
+      .logo {
+        position: absolute;
+        z-index: 2;
+        left: var(--pad-left);
+        top: var(--pad-edge);
+        width: 44px;
+        height: auto;
+      }
+
+      .lineup {
+        position: absolute;
+        z-index: 2;
+        left: var(--pad-left);
+        bottom: 52px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-transform: uppercase;
+        font-size: 36pt;
+        line-height: 1.1;
+        font-family: "RapidRegExtended", "Rapid", inherit;
+      }
+
+      .dj {
+        margin: 0;
+        padding: 0;
+      }
+
+      .dj-btn {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--white);
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+        line-height: inherit;
+        cursor: pointer;
+        transition: color var(--fade) ease;
+      }
+
+      .dj-btn:focus-visible {
+        outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+        outline-offset: 10px;
+      }
+
+      .dj-btn.is-active {
+        color: var(--accent);
+      }
+
+      .date {
+        position: fixed;
+        z-index: 2;
+        right: var(--pad-left);
+        top: 0;
+        transform: translateY(-50%);
+        color: var(--accent);
+        text-transform: lowercase;
+        font-weight: 300;
+        font-size: 36pt;
+        line-height: 1.1;
+        opacity: 0;
+        transition: opacity var(--fade) ease;
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.6),
+          0 0 14px color-mix(in srgb, var(--accent) 25%, transparent);
+        font-family: "RapidRegExtended", "Rapid", inherit;
+      }
+
+      .date.is-active {
+        opacity: 1;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .bg,
+        .dj-btn,
+        .date {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" id="stage" aria-label="DJ lineup">
+      <div class="bg" data-dj="PEGGY GOU" style="background-image: url('../images/djs/peggy.webp')"></div>
+      <div
+        class="bg"
+        data-dj="DISCO LINES"
+        style="background-image: url('../images/djs/discolines.webp')"
+      ></div>
+      <div
+        class="bg"
+        data-dj="DJ MANDY"
+        style="background-image: url('../images/djs/djmandy.jpg')"
+      ></div>
+      <div
+        class="bg"
+        data-dj="IDRIS ELBA"
+        style="background-image: url('../images/djs/idris%20elba.webp')"
+      ></div>
+
+      <a href="../index.html" aria-label="Home">
+        <img class="logo" src="../K.svg" alt="" aria-hidden="true" />
+      </a>
+
+      <ul class="lineup" id="lineup">
+        <li class="dj">
+          <button class="dj-btn" type="button" data-dj="PEGGY GOU">PEGGY GOU</button>
+        </li>
+        <li class="dj">
+          <button class="dj-btn" type="button" data-dj="DISCO LINES">DISCO LINES</button>
+        </li>
+        <li class="dj">
+          <button class="dj-btn" type="button" data-dj="DJ MANDY">DJ MANDY</button>
+        </li>
+        <li class="dj">
+          <button class="dj-btn" type="button" data-dj="IDRIS ELBA">IDRIS ELBA</button>
+        </li>
+      </ul>
+
+      <div class="date" id="date" aria-hidden="true"></div>
+    </main>
+    <script>
+      const DJ_DATES = {
+        "PEGGY GOU": "August 14, 2026",
+        "DISCO LINES": "August 15, 2026",
+        "DJ MANDY": "August 16, 2026",
+        "IDRIS ELBA": "August 17, 2026",
+      };
+
+      const DJ_ACCENTS = {
+        "PEGGY GOU": "var(--neongreen)",
+        "DISCO LINES": "var(--neonblue)",
+        "DJ MANDY": "var(--neonorange)",
+        "IDRIS ELBA": "var(--neonbrown)",
+      };
+
+      const stage = document.getElementById("stage");
+      const lineup = document.getElementById("lineup");
+      const dateEl = document.getElementById("date");
+
+      const bgByDj = new Map(
+        [...stage.querySelectorAll(".bg[data-dj]")].map((el) => [el.dataset.dj, el]),
+      );
+
+      function setActive(djName, sourceEl) {
+        const next = djName && DJ_DATES[djName] ? djName : null;
+
+        for (const [name, el] of bgByDj.entries()) {
+          el.classList.toggle("is-active", Boolean(next && name === next));
+        }
+
+        for (const btn of lineup.querySelectorAll(".dj-btn")) {
+          btn.classList.toggle("is-active", Boolean(next && btn.dataset.dj === next));
+        }
+
+        if (!next) {
+          dateEl.textContent = "";
+          dateEl.classList.remove("is-active");
+          dateEl.style.top = "0px";
+          stage.style.setProperty("--accent", "var(--neongreen)");
+          return;
+        }
+
+        dateEl.textContent = DJ_DATES[next];
+        dateEl.classList.add("is-active");
+        stage.style.setProperty("--accent", DJ_ACCENTS[next] || "var(--neongreen)");
+
+        if (sourceEl) {
+          const rect = sourceEl.getBoundingClientRect();
+          // Align date vertically with the hovered line (centered).
+          dateEl.style.top = `${Math.round(rect.top + rect.height / 2)}px`;
+        }
+      }
+
+      // Preload background images for smoother fades.
+      for (const el of bgByDj.values()) {
+        const raw = getComputedStyle(el).backgroundImage;
+        const match = raw && raw.match(/url\\(\"?(.*?)\"?\\)/);
+        if (match && match[1]) {
+          const img = new Image();
+          img.src = match[1];
+        }
+      }
+
+      lineup.addEventListener("pointerover", (e) => {
+        const btn = e.target.closest(".dj-btn[data-dj]");
+        if (!btn) return;
+        setActive(btn.dataset.dj, btn);
+      });
+
+      lineup.addEventListener("pointerout", (e) => {
+        const fromBtn = e.target.closest(".dj-btn[data-dj]");
+        if (!fromBtn) return;
+        const to = e.relatedTarget;
+        if (to && lineup.contains(to)) return;
+        setActive(null);
+      });
+
+      lineup.addEventListener("focusin", (e) => {
+        const btn = e.target.closest(".dj-btn[data-dj]");
+        if (!btn) return;
+        setActive(btn.dataset.dj, btn);
+      });
+
+      lineup.addEventListener("focusout", (e) => {
+        const to = e.relatedTarget;
+        if (to && lineup.contains(to)) return;
+        setActive(null);
+      });
+
+      // Start with black / no date.
+      setActive(null);
+    </script>
+  </body>
+</html>
