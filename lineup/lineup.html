@@ -61,6 +61,162 @@
         font-family: "RapidRegExtended", "Rapid";
       }
 
+      body.about-open {
+        overflow: hidden;
+      }
+
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding-top: 24px;
+        padding-bottom: 22px;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.92),
+          rgba(0, 0, 0, 0.7) 65%,
+          rgba(0, 0, 0, 0)
+        );
+      }
+
+      .container {
+        padding-left: var(--pad-left);
+        padding-right: var(--pad-left);
+      }
+
+      .nav__row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .home {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        text-decoration: none;
+      }
+
+      .home img {
+        width: 44px;
+        height: auto;
+        display: block;
+      }
+
+      .nav__links {
+        display: inline-flex;
+      }
+
+      .nav__links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 26px;
+        color: var(--white);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 18px;
+        line-height: 1;
+        font-family: "RapidRegExtended", inherit;
+        border: 1px solid rgba(255, 255, 255, 0.92);
+        border-radius: 12px;
+      }
+
+      .nav__links a + a {
+        margin-left: -1px;
+      }
+
+      .nav__links a:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.55);
+        outline-offset: 4px;
+      }
+
+      /* About overlay */
+      .about-panel {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: var(--neongreen);
+        color: #000;
+        transform: translateX(102%);
+        transition: transform 300ms ease;
+        pointer-events: none;
+        will-change: transform;
+        overflow: auto;
+      }
+
+      .about-panel.is-open {
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      .about-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        padding-top: 24px;
+      }
+
+      .about-home img {
+        filter: invert(1);
+      }
+
+      .about-close {
+        border: 0;
+        background: transparent;
+        color: #000;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        height: 46px;
+        display: inline-flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        font-family: "video", serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 64px;
+        line-height: 0.8;
+        position: relative;
+        top: -8px;
+      }
+
+      .about-close:focus-visible {
+        outline: 2px solid rgba(0, 0, 0, 0.65);
+        outline-offset: 6px;
+      }
+
+      .about-content {
+        padding-top: clamp(220px, 32vh, 420px);
+        padding-bottom: 72px;
+        font-family: "RapidRegExtended", system-ui, sans-serif;
+      }
+
+      .about-title {
+        margin: 0 0 46px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 36pt;
+        line-height: 1;
+        font-family: "RapidRegExtended", system-ui, sans-serif;
+      }
+
+      .about-text {
+        margin: 0;
+        max-width: 1400px;
+        font-size: 36pt;
+        line-height: 1.15;
+        letter-spacing: 0.01em;
+        font-family: "Rapid", system-ui, sans-serif;
+      }
+
       .stage {
         position: fixed;
         inset: 0;
@@ -95,15 +251,6 @@
       .bg.is-active::after {
         /* Darken active images for text legibility. */
         background: rgba(0, 0, 0, 0.48);
-      }
-
-      .logo {
-        position: absolute;
-        z-index: 2;
-        left: var(--pad-left);
-        top: var(--pad-edge);
-        width: 44px;
-        height: auto;
       }
 
       .lineup {
@@ -184,6 +331,40 @@
     </style>
   </head>
   <body>
+    <header class="nav">
+      <div class="container">
+        <div class="nav__row">
+          <a class="home" href="../index.html" aria-label="Home">
+            <img src="../K.svg" alt="" aria-hidden="true" />
+          </a>
+          <nav class="nav__links" aria-label="Primary">
+            <a href="lineup.html">LINEUP</a>
+            <a href="../tickets/tickets.html">TICKETS</a>
+            <a href="#about" id="aboutLink">ABOUT US</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <aside class="about-panel" id="aboutPanel" aria-hidden="true">
+      <div class="container">
+        <div class="about-top">
+          <a class="home about-home" href="../index.html" aria-label="Home">
+            <img src="../K.svg" alt="" aria-hidden="true" />
+          </a>
+          <button class="about-close" type="button" id="aboutClose" aria-label="Close">x</button>
+        </div>
+
+        <div class="about-content" role="dialog" aria-modal="true" aria-label="About Us">
+          <h2 class="about-title">ABOUT US</h2>
+          <p class="about-text">
+            Brooklyn After Dark (BKAD) is a four-night electronic music experience, taking place on the
+            Brooklyn Bridge. From underground club sounds to high-energy live sets, each night is
+            curated to feel distinct while staying rooted in the heart of Brooklyn’s night life.
+          </p>
+        </div>
+      </div>
+    </aside>
     <main class="stage" id="stage" aria-label="DJ lineup">
       <div class="bg" data-dj="PEGGY GOU" style="background-image: url('../images/djs/peggy.webp')"></div>
       <div
@@ -201,10 +382,6 @@
         data-dj="IDRIS ELBA"
         style="background-image: url('../images/djs/idris%20elba.webp')"
       ></div>
-
-      <a href="../index.html" aria-label="Home">
-        <img class="logo" src="../K.svg" alt="" aria-hidden="true" />
-      </a>
 
       <ul class="lineup" id="lineup">
         <li class="dj">
@@ -310,6 +487,44 @@
         const to = e.relatedTarget;
         if (to && lineup.contains(to)) return;
         setActive(null);
+      });
+
+      lineup.addEventListener("click", (e) => {
+        const btn = e.target.closest(".dj-btn[data-dj]");
+        if (!btn) return;
+        window.location.href = "../tickets/tickets.html";
+      });
+
+      const aboutLink = document.getElementById("aboutLink");
+      const aboutPanel = document.getElementById("aboutPanel");
+      const aboutClose = document.getElementById("aboutClose");
+
+      let lastFocus = null;
+
+      function openAbout() {
+        lastFocus = document.activeElement;
+        aboutPanel.classList.add("is-open");
+        aboutPanel.setAttribute("aria-hidden", "false");
+        document.body.classList.add("about-open");
+        aboutClose?.focus();
+      }
+
+      function closeAbout() {
+        aboutPanel.classList.remove("is-open");
+        aboutPanel.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("about-open");
+        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+      }
+
+      aboutLink?.addEventListener("click", (e) => {
+        e.preventDefault();
+        openAbout();
+      });
+
+      aboutClose?.addEventListener("click", () => closeAbout());
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && aboutPanel.classList.contains("is-open")) closeAbout();
       });
 
       // Start with black / no date.

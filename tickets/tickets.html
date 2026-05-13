@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Tickets — Brooklyn After Dark</title>
+    <link rel="icon" href="../K.svg" />
+    <link rel="stylesheet" href="https://use.typekit.net/xae2ulr.css" />
+
+    <style>
+      :root {
+        --pad: 64px;
+        --nav-h: 92px;
+        --bg: #000;
+        --fg: rgba(255, 255, 255, 0.95);
+        --stroke: rgba(255, 255, 255, 0.65);
+        --green: #5cff00;
+        --blue: #00b2ff;
+        --orange: #ff6000;
+        --brown: #9a7200;
+      }
+
+      @font-face {
+        font-family: "RapidRegExtended";
+        src: url("../fonts/rapid/RapidRegExtended.otf") format("opentype"),
+          url("../fonts/rapid/RapidRegExtended.ttf") format("truetype");
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "RapidRegular";
+        src: url("../fonts/rapid/RapidRegular.otf") format("opentype"),
+          url("../fonts/rapid/RapidRegular.ttf") format("truetype");
+        font-style: normal;
+        font-display: swap;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      html {
+        background: var(--bg);
+        /* Prevent horizontal "jump" when the vertical scrollbar appears/disappears. */
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        overflow-x: hidden;
+        font-family: "RapidRegular", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+          sans-serif;
+      }
+
+      body.about-open {
+        overflow: hidden;
+      }
+
+      .container {
+        padding-left: var(--pad);
+        padding-right: var(--pad);
+      }
+
+      .top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.55) 75%, rgba(0, 0, 0, 0));
+      }
+
+      .top__row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .home {
+        display: inline-flex;
+        width: 46px;
+        height: 46px;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .home img {
+        width: 44px;
+        height: auto;
+        display: block;
+      }
+
+      .nav__links {
+        display: inline-flex;
+        gap: 0;
+      }
+
+      .nav__links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 26px;
+        color: var(--fg);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 18px;
+        line-height: 1;
+        font-family: "RapidRegExtended";
+        border: 1px solid rgba(255, 255, 255, 0.92);
+        border-radius: 12px;
+      }
+
+      .nav__links a + a {
+        margin-left: -1px;
+      }
+
+      .nav__links a:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.55);
+        outline-offset: 4px;
+      }
+
+      .content {
+        padding-top: 10px;
+        padding-bottom: 96px;
+      }
+
+      .events {
+        margin-top: 22px;
+        display: grid;
+        gap: 0px;
+      }
+
+      .event {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+        padding: 34px 34px;
+        background: rgba(0, 0, 0, 0.15);
+        border: 1px solid var(--stroke);
+        border-radius: 10px;
+      }
+
+      .event + .event {
+        /* Touch without doubling the border thickness */
+        margin-top: -1px;
+      }
+
+      .dj {
+        font-family: "RapidRegExtended";
+        text-transform: uppercase;
+        font-size: 36pt;
+        line-height: 1.05;
+        margin: 0 0 6px 0;
+      }
+
+      .meta {
+        margin: 0;
+        font-size: 36pt;
+        line-height: 1.05;
+      }
+
+      .buy {
+        align-self: center;
+        justify-self: end;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 22px 32px;
+        border-radius: 10px;
+        background: var(--green);
+        color: #000;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: "RapidRegular", inherit;
+        font-size: 36pt;
+        line-height: 1;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
+        white-space: nowrap;
+      }
+
+      @keyframes buyPulse {
+        0% {
+          background: var(--green);
+        }
+        25% {
+          background: var(--blue);
+        }
+        50% {
+          background: var(--orange);
+        }
+        75% {
+          background: var(--brown);
+        }
+        100% {
+          background: var(--green);
+        }
+      }
+
+      .buy {
+        animation: buyPulse 8s linear infinite;
+      }
+
+      /* Stagger phases so each row starts on a different color. */
+      .event:nth-child(1) .buy {
+        animation-delay: 0s;
+      }
+      .event:nth-child(2) .buy {
+        animation-delay: -3s;
+      }
+      .event:nth-child(3) .buy {
+        animation-delay: -6s;
+      }
+      .event:nth-child(4) .buy {
+        animation-delay: -9s;
+      }
+
+      .buy:focus-visible {
+        outline: 2px solid rgba(92, 255, 0, 0.75);
+        outline-offset: 4px;
+      }
+
+      .passes {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+
+      .passes-wrap {
+        position: relative;
+        margin-top: 160px;
+        margin-bottom: 260px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        overflow: visible;
+      }
+
+      .wristband {
+        position: absolute;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+        width: min(1300px, 125vw);
+        height: auto;
+        opacity: 0.98;
+        filter: saturate(1.1) contrast(1.05);
+        max-width: none;
+      }
+
+      .wristband--green {
+        top: -200px;
+        left: -260px;
+        transform: rotate(10deg);
+        transform-origin: left center;
+      }
+
+      .wristband--blue {
+        bottom: -320px;
+        right: -260px;
+        transform: rotate(16deg);
+        transform-origin: right center;
+      }
+
+      .pass {
+        border-radius: 10px;
+        padding: 30px 28px 28px;
+        color: #000;
+        min-height: 440px;
+        display: grid;
+        grid-template-rows: auto 1fr auto auto;
+        gap: 18px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .pass--blue {
+        background: var(--blue);
+      }
+
+      .pass--orange {
+        background: var(--orange);
+      }
+
+      .pass__title {
+        margin: 0;
+        font-family: "RapidRegExtended";
+        text-transform: uppercase;
+        font-size: 36pt;
+        line-height: 1.05;
+      }
+
+      .pass__bullets {
+        margin: 0;
+        padding-left: 28px;
+        font-size: 24pt;
+        line-height: 1.15;
+        font-family: "RapidRegular", inherit;
+      }
+
+      .pass__price {
+        margin: 0;
+        font-size: 24pt;
+        text-transform: lowercase;
+        font-family: "RapidRegular", inherit;
+      }
+
+      .pass__buy {
+        display: inline-flex;
+        height: 92px;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-size: 36pt;
+        text-transform: uppercase;
+        font-family: "RapidRegular", inherit;
+      }
+
+      .pass__buy:focus-visible {
+        outline: 2px solid rgba(0, 0, 0, 0.65);
+        outline-offset: 4px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .buy {
+          animation: none;
+        }
+      }
+
+      /* About overlay */
+      .about-panel {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: var(--green);
+        color: #000;
+        transform: translateX(102%);
+        transition: transform 300ms ease;
+        pointer-events: none;
+        will-change: transform;
+        overflow: auto;
+      }
+
+      .about-panel.is-open {
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      .about-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        padding-top: 24px;
+      }
+
+      .about-home img {
+        filter: invert(1);
+      }
+
+      .about-close {
+        border: 0;
+        background: transparent;
+        color: #000;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        height: 46px;
+        display: inline-flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        font-family: "video", serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 64px;
+        line-height: 0.8;
+        position: relative;
+        top: -8px;
+      }
+
+      .about-close:focus-visible {
+        outline: 2px solid rgba(0, 0, 0, 0.65);
+        outline-offset: 6px;
+      }
+
+      .about-content {
+        padding-top: clamp(220px, 32vh, 420px);
+        padding-bottom: 72px;
+        font-family: "RapidRegExtended", system-ui, sans-serif;
+      }
+
+      .about-title {
+        margin: 0 0 46px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 36pt;
+        line-height: 1;
+        font-family: "RapidRegExtended", system-ui, sans-serif;
+      }
+
+      .about-text {
+        margin: 0;
+        max-width: 1400px;
+        font-size: 36pt;
+        line-height: 1.15;
+        letter-spacing: 0.01em;
+        font-family: "RapidRegular", system-ui, sans-serif;
+      }
+
+      @media (max-width: 980px) {
+        :root {
+          --pad: 24px;
+        }
+
+        .nav__links a {
+          padding: 0 16px;
+          font-size: 18px;
+          height: 40px;
+        }
+
+        .event {
+          grid-template-columns: 1fr;
+          padding: 24px;
+        }
+
+        .buy {
+          justify-self: start;
+        }
+
+        .passes {
+          grid-template-columns: 1fr;
+        }
+
+        .wristband {
+          width: min(1050px, 160vw);
+        }
+
+        .wristband--green {
+          top: -190px;
+          left: -280px;
+          transform: rotate(10deg);
+        }
+
+        .wristband--blue {
+          bottom: -300px;
+          right: -260px;
+          transform: rotate(16deg);
+        }
+
+        .pass {
+          min-height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="container">
+        <div class="top__row">
+          <a class="home" href="../index.html" aria-label="Home">
+            <img src="../K.svg" alt="" aria-hidden="true" />
+          </a>
+          <nav class="nav__links" aria-label="Primary">
+            <a href="../lineup/lineup.html">LINEUP</a>
+            <a href="tickets.html">TICKETS</a>
+            <a href="#about" id="aboutLink">ABOUT US</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <aside class="about-panel" id="aboutPanel" aria-hidden="true">
+      <div class="container">
+        <div class="about-top">
+          <a class="home about-home" href="../index.html" aria-label="Home">
+            <img src="../K.svg" alt="" aria-hidden="true" />
+          </a>
+          <button class="about-close" type="button" id="aboutClose" aria-label="Close">x</button>
+        </div>
+
+        <div class="about-content" role="dialog" aria-modal="true" aria-label="About Us">
+          <h2 class="about-title">ABOUT US</h2>
+          <p class="about-text">
+            Brooklyn After Dark (BKAD) is a four-night electronic music experience, taking place on the
+            Brooklyn Bridge. From underground club sounds to high-energy live sets, each night is
+            curated to feel distinct while staying rooted in the heart of Brooklyn’s night life.
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="container">
+        <section class="events" aria-label="Event tickets">
+          <article class="event">
+            <div>
+              <h2 class="dj">PEGGY GOU</h2>
+              <p class="meta">august 14, 2026<br />9:30 pm</p>
+            </div>
+            <a class="buy" href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE" target="_blank" rel="noreferrer">
+              BUY TICKETS
+            </a>
+          </article>
+
+          <article class="event">
+            <div>
+              <h2 class="dj">DISCO LINES</h2>
+              <p class="meta">august 15, 2026<br />9:30 pm</p>
+            </div>
+            <a class="buy" href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE" target="_blank" rel="noreferrer">
+              BUY TICKETS
+            </a>
+          </article>
+
+          <article class="event">
+            <div>
+              <h2 class="dj">DJ MANDY</h2>
+              <p class="meta">august 16, 2026<br />9:30 pm</p>
+            </div>
+            <a class="buy" href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE" target="_blank" rel="noreferrer">
+              BUY TICKETS
+            </a>
+          </article>
+
+          <article class="event">
+            <div>
+              <h2 class="dj">IDRIS ELBA</h2>
+              <p class="meta">august 17, 2026<br />9:30 pm</p>
+            </div>
+            <a class="buy" href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE" target="_blank" rel="noreferrer">
+              BUY TICKETS
+            </a>
+          </article>
+        </section>
+
+        <section class="passes-wrap" aria-label="Passes">
+          <img
+            class="wristband wristband--green"
+            src="../images/wristband-green.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="wristband wristband--blue"
+            src="../images/wristband-blue.svg"
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div class="passes">
+            <article class="pass pass--blue">
+              <h2 class="pass__title">4-DAY PASS</h2>
+              <ul class="pass__bullets">
+                <li>All four nights of fun</li>
+                <li>Food and drink tickets</li>
+                <li>Exclusive merchandise</li>
+              </ul>
+              <p class="pass__price">starting at $99</p>
+              <a
+                class="pass__buy"
+                href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE"
+                target="_blank"
+                rel="noreferrer"
+                >BUY</a
+              >
+            </article>
+
+            <article class="pass pass--orange">
+              <h2 class="pass__title">VIP TICKETS</h2>
+              <ul class="pass__bullets">
+                <li>All benefits of 4-day pass</li>
+                <li>Exclusive bars</li>
+                <li>Exclusive heated bathrooms</li>
+                <li>Fast entry</li>
+                <li>Front row access</li>
+                <li>Bottle service</li>
+              </ul>
+              <p class="pass__price">starting at $149</p>
+              <a
+                class="pass__buy"
+                href="https://www.ticketmaster.com/?landing=c&awtrc=true&c=SEM_TMBRAND_ggl_298560299_24300724499_ticketmaster&GCID=0&gclsrc=aw.ds&gad_source=1&gad_campaignid=298560299&gbraid=0AAAAAD_KsMLmRaqWV4Cgd2_EI8pLLy-aT&gclid=CjwKCAjwwpDQBhAuEiwAa-4Wo0tRCUjKfrH4jJTYRRgDHqxxLZEWlILv9BgbuOs2SO8_lMgByh6PdhoCd0wQAvD_BwE"
+                target="_blank"
+                rel="noreferrer"
+                >BUY</a
+              >
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const aboutLink = document.getElementById("aboutLink");
+      const aboutPanel = document.getElementById("aboutPanel");
+      const aboutClose = document.getElementById("aboutClose");
+
+      let lastFocus = null;
+
+      function openAbout() {
+        lastFocus = document.activeElement;
+        aboutPanel.classList.add("is-open");
+        aboutPanel.setAttribute("aria-hidden", "false");
+        document.body.classList.add("about-open");
+        aboutClose?.focus();
+      }
+
+      function closeAbout() {
+        aboutPanel.classList.remove("is-open");
+        aboutPanel.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("about-open");
+        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+      }
+
+      aboutLink?.addEventListener("click", (e) => {
+        e.preventDefault();
+        openAbout();
+      });
+
+      aboutClose?.addEventListener("click", () => closeAbout());
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && aboutPanel.classList.contains("is-open")) closeAbout();
+      });
+    </script>
+  </body>
+</html>

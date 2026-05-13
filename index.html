@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brooklyn After Dark</title>
     <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="https://use.typekit.net/xae2ulr.css">
     <link rel="icon" href="K.svg" />
 
     <style>
@@ -14,6 +15,7 @@
             --bg: #000;
             --fg: rgba(255,255,255,.95);
             --stroke: rgba(255,255,255,.92);
+            --green: #5CFF00;
             --blue: #00B2FF;
             --orange: #FF6000;
             --brown: #9A7200;
@@ -55,6 +57,10 @@
             font-family: "RapidRegExtended", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow-x: hidden;
             padding-top: var(--nav-h);
+        }
+
+        body.about-open{
+            overflow: hidden;
         }
 
         .container{
@@ -102,9 +108,6 @@
         .nav__links{
             display: inline-flex;
             gap: 0;
-            border: 1px solid var(--stroke);
-            border-radius: 12px;
-            overflow: hidden;
         }
 
         .nav__links a{
@@ -119,10 +122,12 @@
             font-size: 18px;
             line-height: 1;
             font-family: "RapidRegExtended", inherit;
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
         }
 
         .nav__links a + a{
-            border-left: 1px solid var(--stroke);
+            margin-left: -1px;
         }
 
         .nav__links a:focus-visible{
@@ -210,6 +215,89 @@
                 height: 40px;
             }
         }
+
+        /* About overlay */
+        .about-panel{
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            background: var(--green);
+            color: #000;
+            transform: translateX(102%);
+            transition: transform 300ms ease;
+            pointer-events: none;
+            will-change: transform;
+            overflow: auto;
+        }
+
+        .about-panel.is-open{
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .about-top{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding-top: 24px;
+        }
+
+        .about-home{
+            align-self: flex-start;
+        }
+
+        .about-home img{
+            filter: invert(1);
+        }
+
+        .about-close{
+            border: 0;
+            background: transparent;
+            color: #000;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            height: 46px;
+            display: inline-flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            font-family: "video", serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 64px;
+            line-height: 0.8;
+            position: relative;
+            top: -8px;
+        }
+
+        .about-close:focus-visible{
+            outline: 2px solid rgba(0,0,0,.65);
+            outline-offset: 6px;
+        }
+
+        .about-content{
+            padding-top: clamp(220px, 32vh, 420px);
+            padding-bottom: 72px;
+            font-family: "RapidRegExtended", system-ui, sans-serif;
+        }
+
+        .about-title{
+            margin: 0 0 46px 0;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            font-size: 36pt;
+            line-height: 1;
+            font-family: "RapidRegExtended", system-ui, sans-serif;
+        }
+
+        .about-text{
+            margin: 0;
+            max-width: 1400px;
+            font-size: 36pt;
+            line-height: 1.15;
+            letter-spacing: .01em;
+            font-family: "RapidRegular", "RapidRegExtended", system-ui, sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -221,13 +309,36 @@
                 </a>
 
                 <nav class="nav__links" aria-label="Primary">
-                    <a href="#about">ABOUT US</a>
                     <a href="lineup/lineup.html">LINEUP</a>
-                    <a href="#tickets">TICKETS</a>
+                    <a href="tickets/tickets.html">TICKETS</a>
+                    <a href="#about" id="aboutLink">ABOUT US</a>
                 </nav>
             </div>
         </div>
     </header>
+
+    <aside class="about-panel" id="aboutPanel" aria-hidden="true">
+        <div class="container">
+            <div class="about-top">
+                <a class="home about-home" href="index.html" aria-label="Home">
+                    <img src="K.svg" alt="" aria-hidden="true" />
+                </a>
+                <button class="about-close" type="button" id="aboutClose" aria-label="Close">
+                    x
+                </button>
+            </div>
+
+            <div class="about-content" role="dialog" aria-modal="true" aria-label="About Us">
+                <h2 class="about-title">ABOUT US</h2>
+                <p class="about-text">
+                    Brooklyn After Dark (BKAD) is a four-night electronic music experience, taking place
+                    on the Brooklyn Bridge. From underground club sounds to high-energy live sets, each
+                    night is curated to feel distinct while staying rooted in the heart of Brooklyn’s
+                    night life.
+                </p>
+            </div>
+        </div>
+    </aside>
 
     <main>
         <!-- Screen 1 -->
@@ -251,6 +362,38 @@
         <section class="section section--spacer container" id="tickets" aria-label="Tickets"></section>
     </main>
 
-    <script></script>
+    <script>
+        const aboutLink = document.getElementById("aboutLink");
+        const aboutPanel = document.getElementById("aboutPanel");
+        const aboutClose = document.getElementById("aboutClose");
+
+        let lastFocus = null;
+
+        function openAbout() {
+            lastFocus = document.activeElement;
+            aboutPanel.classList.add("is-open");
+            aboutPanel.setAttribute("aria-hidden", "false");
+            document.body.classList.add("about-open");
+            aboutClose?.focus();
+        }
+
+        function closeAbout() {
+            aboutPanel.classList.remove("is-open");
+            aboutPanel.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("about-open");
+            if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+        }
+
+        aboutLink?.addEventListener("click", (e) => {
+            e.preventDefault();
+            openAbout();
+        });
+
+        aboutClose?.addEventListener("click", () => closeAbout());
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && aboutPanel.classList.contains("is-open")) closeAbout();
+        });
+    </script>
 </body>
 </html>
