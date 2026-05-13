@@ -108,6 +108,9 @@
         .nav__links{
             display: inline-flex;
             gap: 0;
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .nav__links a{
@@ -122,12 +125,10 @@
             font-size: 18px;
             line-height: 1;
             font-family: "RapidRegExtended", inherit;
-            border: 1px solid var(--stroke);
-            border-radius: 12px;
         }
 
         .nav__links a + a{
-            margin-left: -1px;
+            border-left: 1px solid var(--stroke);
         }
 
         .nav__links a:focus-visible{
@@ -154,10 +155,26 @@
         .intro__title{
             margin: 0;
             text-transform: uppercase;
-            font-size: 96px;
-            line-height: 1;
+            font-size: clamp(140px, 20vw, 420px);
+            line-height: .92;
+            padding-top: .08em;
             font-family: "RapidRegular", "RapidRegExtended", inherit;
             text-align: center;
+        }
+
+        .bkad-letter{
+            display: inline-block;
+            transition: color 220ms ease;
+            will-change: color;
+        }
+
+        .bkad-letter--b:hover{ color: var(--green); }
+        .bkad-letter--k:hover{ color: var(--blue); }
+        .bkad-letter--a:hover{ color: var(--orange); }
+        .bkad-letter--d:hover{ color: var(--brown); }
+
+        @media (prefers-reduced-motion: reduce){
+            .bkad-letter{ transition: none; }
         }
 
         .intro__title br,
@@ -207,6 +224,212 @@
             min-height: 70vh;
         }
 
+        /* Added sections (order: img 1, img 3, img 2) */
+        .module{
+            padding-top: 96px;
+            padding-bottom: 96px;
+        }
+
+        .frame{
+            border: 10px solid rgba(255,255,255,.95);
+            background: #000;
+        }
+
+        .tile-grid{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .tile{
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
+            padding: 26px;
+            overflow: hidden;
+        }
+
+        .tile--black{ background:#000; color:#fff; }
+        .tile--orange{ background: var(--orange); color:#000; }
+        .tile--brown{ background: var(--brown); color:#000; }
+        .tile--blue{ background: var(--blue); color:#000; }
+        .tile--green{ background: var(--green); color:#000; }
+
+        .tile__bkad{
+            font-family: "RapidRegular", "RapidRegExtended", inherit;
+            font-size: clamp(64px, 6vw, 140px);
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            margin: 0;
+        }
+
+        .tile__k{
+            width: min(160px, 55%);
+            height: auto;
+            display: block;
+            filter: invert(1);
+        }
+
+        .tile__center{
+            text-align: center;
+            text-transform: uppercase;
+            font-size: clamp(22px, 2vw, 34px);
+            line-height: 1.05;
+            font-family: "RapidRegExtended", inherit;
+        }
+
+        .tile__center--lower{
+            text-transform: lowercase;
+            font-size: clamp(24px, 2.2vw, 40px);
+        }
+
+        .tile__center strong{
+            display:block;
+            font-weight: 400;
+        }
+
+        .bridge-mark{
+            width: min(220px, 70%);
+            height: auto;
+            display:block;
+        }
+
+        .mini-marks{
+            display:flex;
+            gap: 10px;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .mini-marks img{
+            width: 54px;
+            height: auto;
+            display:block;
+            filter: invert(1);
+        }
+
+        .mini-marks img.is-green{ filter: none; }
+        .mini-marks img.is-blue{ filter: hue-rotate(170deg) saturate(4); }
+        .mini-marks img.is-orange{ filter: hue-rotate(40deg) saturate(6); }
+        .mini-marks img.is-brown{ filter: hue-rotate(-20deg) saturate(3) brightness(.9); }
+
+        .tile__gif{
+            width: min(260px, 78%);
+            height: auto;
+            display: block;
+        }
+
+        .tile__net{
+            width: min(280px, 86%);
+            height: auto;
+            display: block;
+        }
+
+        .frame-bottom{
+            border-top: 10px solid rgba(255,255,255,.95);
+            min-height: clamp(300px, 45vw, 560px);
+            display:grid;
+            place-items:center;
+            padding: 54px 26px;
+        }
+
+        .frame-bottom__title{
+            font-family: "RapidRegExtended", inherit;
+            font-size: clamp(26px, 3vw, 44px);
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .frame-bottom__gif{
+            width: min(900px, 85%);
+            height: auto;
+            display: block;
+        }
+
+        .bars{
+            background:#fff;
+            padding: 28px;
+        }
+
+        .bars__row{
+            display:grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .bar{
+            border-radius: 10px;
+            min-height: clamp(180px, 22vw, 320px);
+        }
+
+        .bar--green{ background: var(--green); }
+        .bar--blue{ background: var(--blue); }
+        .bar--orange{ background: var(--orange); }
+        .bar--brown{ background: var(--brown); }
+
+        .bars__bottom{
+            margin-top: 18px;
+            border: 10px solid var(--blue);
+            background:#000;
+            min-height: clamp(320px, 35vw, 520px);
+            display:grid;
+            place-items:center;
+        }
+
+        .bars__gif{
+            width: min(560px, 75%);
+            height: auto;
+            display: block;
+        }
+
+        .bars__text{
+            font-family: "RapidRegExtended", inherit;
+            font-size: clamp(20px, 2.2vw, 34px);
+            color:#fff;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+            display:flex;
+            align-items:center;
+            gap: 14px;
+        }
+
+        .bars__text img{
+            width: 44px;
+            height:auto;
+            display:block;
+            filter: invert(1);
+        }
+
+        .maps{
+            display:grid;
+            gap: 18px;
+            padding: 18px;
+        }
+
+        .maps__top{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .maps img{
+            width: 100%;
+            height: auto;
+            display:block;
+            background:#111;
+        }
+
+        .maps__top img{
+            aspect-ratio: 16/10;
+            object-fit: cover;
+        }
+
+        .maps__poster img{
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
         @media (max-width: 720px){
             :root{ --pad: 24px; }
             .nav__links a{
@@ -214,6 +437,10 @@
                 font-size: 18px;
                 height: 40px;
             }
+
+            .tile-grid{ grid-template-columns: 1fr; }
+            .bars__row{ grid-template-columns: 1fr 1fr; }
+            .maps__top{ grid-template-columns: 1fr; }
         }
 
         /* About overlay */
@@ -309,9 +536,9 @@
                 </a>
 
                 <nav class="nav__links" aria-label="Primary">
+                    <a href="#about" id="aboutLink">ABOUT US</a>
                     <a href="lineup/lineup.html">LINEUP</a>
                     <a href="tickets/tickets.html">TICKETS</a>
-                    <a href="#about" id="aboutLink">ABOUT US</a>
                 </nav>
             </div>
         </div>
@@ -343,7 +570,10 @@
     <main>
         <!-- Screen 1 -->
         <section class="hero hero--intro container" aria-label="Intro">
-            <h1 class="intro__title">BK<br/>AD</h1>
+            <h1 class="intro__title" aria-label="BKAD">
+                <span class="bkad-letter bkad-letter--b">B</span><span class="bkad-letter bkad-letter--k">K</span><br/>
+                <span class="bkad-letter bkad-letter--a">A</span><span class="bkad-letter bkad-letter--d">D</span>
+            </h1>
         </section>
 
         <!-- Screen 2 -->
@@ -354,6 +584,63 @@
                 <span class="tag__num tag__num--blue">4</span> nights.
                 <span class="tag__num tag__num--orange">4</span> DJs.
                 <span class="tag__num tag__num--brown">1</span> bridge.
+            </div>
+        </section>
+
+        <section class="module container" aria-label="Brand grid">
+            <div class="frame">
+                <div class="tile-grid" aria-hidden="true">
+                    <div class="tile tile--black">
+                        <p class="tile__bkad">
+                            <span class="bkad-letter bkad-letter--b">B</span><span class="bkad-letter bkad-letter--k">K</span><br/>
+                            <span class="bkad-letter bkad-letter--a">A</span><span class="bkad-letter bkad-letter--d">D</span>
+                        </p>
+                    </div>
+                    <div class="tile tile--orange">
+                        <img class="tile__k" src="K.svg" alt="" />
+                    </div>
+                    <div class="tile tile--brown">
+                        <div class="tile__center tile__center--lower">rave<br/>dance<br/>party</div>
+                    </div>
+                    <div class="tile tile--blue">
+                        <div class="tile__center"><strong>ON THE</strong><strong>BRIDGE</strong></div>
+                    </div>
+                    <div class="tile tile--green">
+                        <img class="tile__net" src="images/net.svg" alt="" />
+                    </div>
+                    <div class="tile tile--black">
+                        <img class="tile__gif" src="motion/k%20colors%20bridges.gif" alt="" />
+                    </div>
+                </div>
+                <div class="frame-bottom">
+                    <img class="frame-bottom__gif" src="motion/bkad%20rapid%20type.gif" alt="" aria-hidden="true" />
+                </div>
+            </div>
+        </section>
+
+        <section class="module container" aria-label="Color bars">
+            <div class="frame bars">
+                <div class="bars__row" aria-hidden="true">
+                    <div class="bar bar--green"></div>
+                    <div class="bar bar--blue"></div>
+                    <div class="bar bar--orange"></div>
+                    <div class="bar bar--brown"></div>
+                </div>
+                <div class="bars__bottom">
+                    <img class="bars__gif" src="motion/on%20the%20bridge.gif" alt="" aria-hidden="true" />
+                </div>
+            </div>
+        </section>
+
+        <section class="module container" aria-label="Maps and posters">
+            <div class="frame maps">
+                <div class="maps__top">
+                    <img src="images/map1.png" alt="" aria-hidden="true" />
+                    <img src="images/map2.png" alt="" aria-hidden="true" />
+                </div>
+                <div class="maps__poster">
+                    <img src="images/bkad street posters.png" alt="" aria-hidden="true" />
+                </div>
             </div>
         </section>
 
